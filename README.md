@@ -22,7 +22,7 @@
 - Web 接口：FastAPI + Uvicorn
 - 数据格式：JSONL
 
-如果设备没有安装 `torch` 或 `transformers`，系统会退回到一个基础的抽取式摘要流程，保证项目至少能演示和排错。
+> 如果设备没有安装 `torch` 或 `transformers`，系统会退回到一个基础的抽取式摘要流程，保证项目至少能演示和排错，即`fallback`。
 
 ## 3. 项目目录
 
@@ -196,8 +196,7 @@ python run_cli.py summarize --model-name outputs\mt5_finetuned --text "这里是
 
 原因通常是：
 
-- 安装依赖时用的是 Python 3.10
-- 运行脚本时用的是 Python 3.12
+- 安装依赖时与运行脚本时用的是 Python 版本不一致
 
 解决办法是：安装和运行都统一使用同一个解释器。
 
@@ -219,3 +218,12 @@ python run_cli.py summarize --model-name outputs\mt5_finetuned --text "这里是
 - 使用合法 JSON
 - 或让换行写成 `\n`
 - 或直接在 Swagger 页面里提交
+
+### 9.4摘要内容[backend=`fallback`]而不是transformer
+
+检查是否报错`SentencePieceExtractor requires the protobuf library`/`SentencePieceExtractor requires the protobuf library but it was not found`
+
+- 使用的 **mt5-small 模型** 需要 `protobuf` 这个库来加载分词模型，但你的环境里没装。
+
+- `pip install protobuf`安装即可
+
